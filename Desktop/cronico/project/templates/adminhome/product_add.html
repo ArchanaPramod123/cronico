@@ -1,0 +1,146 @@
+{% extends "adminhome/base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Add Product</h2>
+            
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white">
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+                    <form method='post' action='{% url "admin_product_add" %}' enctype="multipart/form-data">
+                        {% csrf_token %}
+                     <div class="row">
+                        <div class="col-lg-5">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Name</label>
+                                <input type="text" placeholder="Type here" name='name' class="form-control" id="product_name" />
+                            </div>
+    
+                            <div class="mb-4">
+                                <label for="product_slug" class="form-label">Slug</label>
+                                <input type="text" placeholder="Type here" name='slug' class="form-control" id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea placeholder="Type here" name="description" class="form-control" id="description"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_slug" class="form-label">price</label>
+                                <input type="text" placeholder="Type here" name='price' class="form-control" id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_slug" class="form-label">stock</label>
+                                <input type="text" placeholder="Type here" name='stock' class="form-control" id="product_slug" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_slug" class="form-label">Brand</label>
+                                <select name="brand" class="form-control" id="product_brand">
+                                    {% for brand in brands %}
+                                        <option value="{{ brand.id }}">{{ brand.brand_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_slug" class="form-label">Category</label>
+                                <select name="category" class="form-control" id="product_category">
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.category_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="is_available" class="form-check-label">Available</label>
+                                <input type="checkbox" name="is_available" id="is_available" class="form-check-input">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="is_deleted" class="form-check-label">Deleted</label>
+                                <input type="checkbox" name="is_deleted" id="is_deleted" class="form-check-input">
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Media</h4>
+                                </div>
+                                
+                                
+                                {% comment %} <div class="card-body">
+                                    <div class="input-upload">
+                                        <input class="form-control" name='image1' type="file">
+                                        
+                                    </div>
+                                </div>
+                               
+                                <div class="card-body">
+                                    <div class="input-upload">
+                                        <input class="form-control" name='image2' type="file">
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="input-upload">
+                                        
+                                        <input class="form-control" name='image3' type="file">
+                                    </div>
+                                </div>  {% endcomment %}
+                                <div class="mb-4">
+                                    <label for="product_image" class="form-label">Main Image</label>
+                                    <input type="file" name="image" id="product_image" class="form-control">
+                                </div>
+                                {% comment %} <div class="mb-4">
+                                    <label for="product_images" class="form-label">Additional Images</label>
+                                    <input type="file" name="images" id="product_images" class="form-control" multiple>
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="addImageInput()">Add Image</button> {% endcomment %}
+                                <div class="mb-4" id="additional-images-container">
+                                    <label for="images" class="form-label">Additional Images</label>
+                                    <div class="input-group">
+                                        <input type="file" name="images" class="form-control" multiple>
+                                        
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" onclick="addImageInput()">Add Image</button>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Add Product</button>
+                        </div>
+                     </div>
+                    </form>
+
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#product_name').on('input', function () {
+                                var name = $(this).val();
+                                var slug = name.toLowerCase().replace(/\s+/g, '-').replace(/'/g, '');
+                                $('#product_slug').val(slug);
+                            });
+                        });
+                        function addImageInput() {
+                            var container = document.getElementById('additional-images-container');
+                            var input = document.createElement('input');
+                            input.type = 'file';
+                            input.name = 'images';
+                            input.className = 'form-control mt-2';
+                            input.multiple = true;
+                            container.appendChild(input);
+                        }
+                    
+                    </script>
+                
+            </div>
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section> <!-- content-main end// -->
+
+{% endblock %}
